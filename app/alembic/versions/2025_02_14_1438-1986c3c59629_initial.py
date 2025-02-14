@@ -1,8 +1,8 @@
 """initial
 
-Revision ID: 3e176e4e2247
+Revision ID: 1986c3c59629
 Revises: 
-Create Date: 2025-02-14 12:31:24.138796
+Create Date: 2025-02-14 14:38:29.112367
 
 """
 
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = "3e176e4e2247"
+revision: str = "1986c3c59629"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -45,9 +45,6 @@ def upgrade() -> None:
             ondelete="CASCADE",
         ),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_organizations")),
-        sa.UniqueConstraint(
-            "building_id", name=op.f("uq_organizations_building_id")
-        ),
         sa.UniqueConstraint(
             "name", "phone", name=op.f("uq_organizations_name_phone")
         ),

@@ -17,7 +17,7 @@ class Organization(NameAndIntIdPkMixin, Base):
     )
 
     building_id: Mapped[int] = (
-        mapped_column(ForeignKey("buildings.id", ondelete="CASCADE"), unique=True)
+        mapped_column(ForeignKey("buildings.id", ondelete="CASCADE"))
     )
 
     __table_args__ = (
@@ -34,7 +34,7 @@ class Building(IntIdPkMixin, Base):
     longitude: Mapped[float]
 
     organization: Mapped[list["Organization"]] = relationship(
-        back_populates="buildings", uselist=False
+        back_populates="buildings",
     )
 
 

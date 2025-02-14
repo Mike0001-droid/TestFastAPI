@@ -1,8 +1,7 @@
-
 from core.models.models import Organization, Activity, Category, Building
 from sqlalchemy.orm import selectinload
 from sqlalchemy.future import select
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -30,7 +29,7 @@ async def get_organization_by_building(session: AsyncSession, building_id: int):
             Organization.building_id == building_id
         )
     )
-    organization = result.scalars().first()
+    organization = result.scalars().all()
     return organization
 
 
@@ -67,13 +66,16 @@ async def get_organization_by_name(
     return organization
 
 
-async def get_organization_by_activity_name(
-        session: AsyncSession, activity_name: str
-    ):
-
-    result = await session.execute(
-        options_for_organizations().join(Activity)
-        .where(Activity.name.ilike(f"%{activity_name}%"))
-    )
-    organizations = result.scalars().all()
-    return organizations
+# async def get_organization_by_activity_name(
+#         session: AsyncSession, activity_name: str
+#     ):
+#     result = await session.execute(
+#         options_for_organizations()
+#         .join(Activity)
+#         .join(Category)
+#         .filter(
+#             or_(Activity.name.ilike(f"%{activity_name}%"), ~Category.name.ilike(f"%{activity_name}%"))
+#         )
+#     )
+#     organizations = result.scalars().all()
+#     return organizations
